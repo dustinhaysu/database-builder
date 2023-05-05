@@ -43,7 +43,14 @@ app.get('/',(req, res) => {
 })
 
 app.post('/api', (req, res) => {
-
+    console.log('POST heard')
+    db.collection('alien-info').insertOne(
+        req.body
+    )
+    .then(result => {
+        console.log(result)
+        res.redirect('/')
+    })
 })
 
 app.put('/updateEntry', (req, res) => {
