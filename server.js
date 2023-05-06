@@ -54,6 +54,8 @@ app.post('/api', (req, res) => {
 })
 
 app.put('/updateEntry', (req, res) => {
+    console.log('POST heard')
+    console.log(req.body) 
 
 })
 
