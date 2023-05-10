@@ -54,12 +54,37 @@ app.post('/api', (req, res) => {
 })
 
 app.put('/updateEntry', (req, res) => {
-    console.log('POST heard')
-    console.log(req.body) 
+    console.log(req.body,'PUT heard')
+    Object.keys(req.body).forEach(key => {
+        if(req.body[key]===null || req.body[key]===undefined|| req.body[key]===''){
+            delete req.body[key]
+        }
+
+    })
+    console.log(req.body)
+    db.collection('alien-info').findOneAndUpdate(
+        {name: req.body.name},
+        {
+            $set: req.body
+        }
+    )
+    .then(result => {
+        console.log(result, 'Success')
+        res.json('Success')
+    })
+    .catch(error => console.error(error,'SHIT'))
 
 })
 
 app.delete('/deleteEntry', (req, res) => {
+    db.collection('alien-info').deleteOne(
+        {name: req.body.name}
+    )
+    .then(result => {
+        console.log('Entry Deleted')
+        res.json('Entry Deleted')
+    })
+    .catch(error => console.error(error))
 
 })
 

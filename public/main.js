@@ -1,9 +1,15 @@
-document.getElementById('updateButton').addEventListener('click', updateEntry)
-
+document.getElementById('updateButton').addEventListener('click', event=> {
+    updateEntry()
+})
+document.getElementById('deleteButton').addEventListener('click', event=> {
+    console.log('delete clicked')
+    deleteEntry()
+})
 async function updateEntry(){
+    console.log("updateEntry function heard")
     try {
         const response = await fetch('/updateEntry', {
-            method: 'PUT',
+            method: 'put',
             headers: {'Content-Type': 'application/json'},
             body: JSON.stringify({
                 name: document.getElementsByName('name')[0].value,
@@ -24,4 +30,22 @@ async function updateEntry(){
     }
 }
 
+
+async function deleteEntry () {
+    const input = document.getElementById('deleteInput')
+    console.log(input)
+    try{
+        const res = await fetch('/deleteEntry', {
+            method: 'delete',
+            headers: {'Content-Type': 'application/json'},
+            body: JSON.stringify({
+                name: input.value
+            })
+        })
+        const data = await res.json()
+        location.reload()
+    } catch(err){
+        console.log(err)
+    }
+}
 console.log("hello world")
